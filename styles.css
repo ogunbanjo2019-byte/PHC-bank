@@ -98,3 +98,8 @@ html:not(.session-verified) .standalone-page{visibility:hidden}
 .login-card .signup-form>.signup-password-label{margin-top:13px}
 .password-hint{font-size:10px;color:#8995a5;margin:7px 0 14px}
 .form-message.success{color:#21805d;background:#eef8f3;border-radius:7px;padding:9px 10px}
+
+/* Make the entire amount-due summary discoverable and keyboard accessible. */
+.due-card[role="button"]{cursor:pointer;transition:box-shadow .18s ease,transform .18s ease}
+.due-card[role="button"]:hover{box-shadow:0 10px 26px #253a5918;transform:translateY(-1px)}
+.due-card[role="button"]:focus-visible{outline:3px solid #7eabf2;outline-offset:3px}

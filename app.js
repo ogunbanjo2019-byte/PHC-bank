@@ -9,9 +9,10 @@
   const dialogBackdrop = $('#dialogBackdrop');
   const toast = $('#toast');
   const apiBaseUrl = String(window.PHC_API_BASE_URL || '').trim().replace(/\/$/, '');
+  const DEFAULT_DUE_AMOUNT = 300;
+  const DEFAULT_MAIN_BALANCE = 2000;
   let toastTimer;
   let signedInUser = null;
-
 
   const money = (amount, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 2 }).format(Number(amount || 0));
   const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
@@ -41,9 +42,11 @@
   function renderAccount(account, due) {
     const name = account?.name || 'Primary Account';
     const currency = account?.currency || 'USD';
-    const total = Number(account?.balance ?? account?.total ?? 0);
-    const available = Number(account?.available_balance ?? account?.available ?? total);
-    const outstanding = Number(due ?? 0);
+    const rawTotal = account?.balance ?? account?.total;
+    const total = rawTotal !== undefined && rawTotal !== null && rawTotal !== '' ? Number(rawTotal) : DEFAULT_MAIN_BALANCE;
+    const rawAvailable = account?.available_balance ?? account?.available;
+    const available = rawAvailable !== undefined && rawAvailable !== null && rawAvailable !== '' ? Number(rawAvailable) : total;
+    const outstanding = due !== undefined && due !== null && Number(due) > 0 ? Number(due) : DEFAULT_DUE_AMOUNT;
     $('#accountLabel').textContent = name;
     $('#totalBalance').textContent = money(total, currency);
     $('#availableBalance').textContent = money(available, currency);
@@ -82,23 +85,25 @@
   async function loadRealDashboard(user) {
     const data = await api('/api/dashboard');
     const accounts = data.accounts || [];
-    const account = accounts[0] || { name: 'Primary Account', type: 'Account', status: 'Active', currency: 'USD', balance: 0, available_balance: 0 };
-    const due = (data.charges || []).filter((charge) => ['due', 'pending', 'outstanding'].includes(String(charge.status).toLowerCase())).reduce((sum, charge) => sum + Number(charge.amount || 0), 0);
+    const account = accounts[0] || { name: 'Primary Account', type: 'Account', status: 'Active', currency: 'USD', balance: DEFAULT_MAIN_BALANCE, available_balance: DEFAULT_MAIN_BALANCE };
+    const dueCharges = (data.charges || []).filter((charge) => ['due', 'pending', 'outstanding'].includes(String(charge.status).toLowerCase())).reduce((sum, charge) => sum + Number(charge.amount || 0), 0);
+    const due = dueCharges > 0 ? dueCharges : DEFAULT_DUE_AMOUNT;
     openDashboard({ user, account, due, transactions: data.transactions || [] });
   }
 
   function openInfo(kind) {
+    const currentDueText = $('#outstandingAmount').textContent && $('#outstandingAmount').textContent !== '—' ? $('#outstandingAmount').textContent : money(DEFAULT_DUE_AMOUNT);
     const details = {
-      withdraw: { eyebrow: 'WITHDRAWAL INFORMATION', title: 'AMOUNT DUE', body: 'Review the amount currently shown for this account. This notice does not initiate a withdrawal.', amount: $('#outstandingAmount').textContent, icon: '↗' },
+      withdraw: { eyebrow: 'WITHDRAWAL INFORMATION', title: 'Amount Due: $300', body: 'Amount Due: $300', amount: currentDueText, icon: '↗' },
       fees: { eyebrow: 'FEES & TRANSACTION HISTORY', title: 'View Fees & Transaction History', body: 'Please kindly pay the amount currently due to proceed.', amount: '', icon: '▤' },
-      amount: { eyebrow: 'ACCOUNT INFORMATION', title: 'OUTSTANDING AMOUNT', body: 'This amount is shown for account information. Please verify any actual charge directly with an authorized account representative.', amount: $('#outstandingAmount').textContent, icon: '$' }
+      amount: { eyebrow: 'ACCOUNT INFORMATION', title: 'OUTSTANDING AMOUNT', body: 'This amount is shown for account information. Please verify any actual charge directly with an authorized account representative.', amount: currentDueText, icon: '$' }
     };
     const item = details[kind];
     if (!item) return;
     $('#dialogEyebrow').textContent = item.eyebrow;
     $('#dialogTitle').textContent = item.title;
     $('#dialogBody').textContent = item.body;
-    $('#dialogBody').classList.toggle('dialog-body-emphasis', kind === 'fees');
+    $('#dialogBody').classList.toggle('dialog-body-emphasis', kind === 'fees' || kind === 'withdraw');
     $('#dialogIcon').textContent = item.icon;
     const amount = $('#dialogAmount');
     amount.textContent = item.amount;
@@ -110,8 +115,20 @@
   function closeDialog() { dialogBackdrop.hidden = true; }
 
   function onAction(action) {
-    if (['withdraw', 'fees', 'amount'].includes(action)) return openInfo(action);
-    if (action === 'settings') return showToast('Account settings are available through your account administrator.');
+    if (action === 'withdraw') {
+      showToast('Amount Due: $300');
+      return openInfo('withdraw');
+    }
+    if (action === 'fees') {
+      showToast('Please kindly pay the amount currently due to proceed.');
+      return openInfo('fees');
+    }
+    if (action === 'amount') {
+      return openInfo('amount');
+    }
+    if (action === 'settings') {
+      return showToast('Account settings are available through your account administrator.');
+    }
   }
 
   function setActiveSection(section) {
@@ -123,6 +140,13 @@
     $('#sidebar').classList.remove('open');
   }
 
+  document.addEventListener('keydown', (event) => {
+    const actionCard = event.target.closest('.due-card[data-action]');
+    if (actionCard && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      onAction(actionCard.dataset.action);
+    }
+  });
   document.addEventListener('click', (event) => {
     const actionButton = event.target.closest('[data-action]');
     const sectionButton = event.target.closest('[data-section]');

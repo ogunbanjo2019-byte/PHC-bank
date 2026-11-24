@@ -13,32 +13,68 @@
 <body>
   <main id="loginView" class="login-shell">
     <section class="login-aside" aria-label="P10 Holding Company">
-      <div class="brand brand-large"><span class="brand-mark" aria-hidden="true"><b>P</b><i>10</i></span><span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span></div>
-      <div class="login-message"><p class="eyebrow">ACCOUNT ACCESS</p><h1>One clear view<br>of your accounts.</h1><p>Sign in to review account information and recent activity.</p></div>
+      <div class="brand brand-large">
+        <span class="brand-mark" aria-hidden="true"><b>P</b><i>10</i></span>
+        <span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span>
+      </div>
+      <div class="login-message">
+        <p class="eyebrow">ACCOUNT ACCESS</p>
+        <h1>One clear view<br>of your accounts.</h1>
+        <p>Sign in to review account information and recent activity.</p>
+      </div>
       <div class="aside-foot"><span class="status-dot"></span> Secure account access</div>
     </section>
+
     <section class="login-content">
       <div class="login-card">
-        <div class="brand brand-mobile"><span class="brand-mark" aria-hidden="true"><b>P</b><i>10</i></span><span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span></div>
-        <p class="eyebrow" id="authEyebrow">WELCOME BACK</p><h2 id="authTitle">Sign in to your account</h2><p class="muted" id="authSubtitle">Enter the credentials provided for your account.</p>
+        <div class="brand brand-mobile">
+          <span class="brand-mark" aria-hidden="true"><b>P</b><i>10</i></span>
+          <span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span>
+        </div>
+        <p class="eyebrow" id="authEyebrow">WELCOME BACK</p>
+        <h2 id="authTitle">Sign in to your account</h2>
+        <p class="muted" id="authSubtitle">Enter the credentials provided for your account.</p>
+
         <form id="loginForm" autocomplete="on">
-          <label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="username" required placeholder="name@example.com">
-          <div class="password-label"><label for="password">Password</label><button type="button" id="forgotPassword" class="text-button">Forgot password?</button></div>
-          <div class="password-wrap"><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password"><button type="button" id="togglePassword" class="eye-button" aria-label="Show password">Show</button></div>
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="username" required placeholder="name@example.com">
+
+          <div class="password-label">
+            <label for="password">Password</label>
+            <button type="button" id="forgotPassword" class="text-button">Forgot password?</button>
+          </div>
+          <div class="password-wrap">
+            <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password">
+            <button type="button" id="togglePassword" class="eye-button" aria-label="Show password">Show</button>
+          </div>
+
           <label class="check-row"><input type="checkbox" id="remember" checked><span>Remember me</span></label>
           <button class="button primary full" type="submit">Sign in <span aria-hidden="true">→</span></button>
           <p id="loginError" class="form-message" role="status" aria-live="polite"></p>
         </form>
-        <p class="auth-switch" id="loginSwitch">New to P10? <button type="button" id="showSignup" class="auth-switch-button">Create account</button></p>
+
+        <p class="auth-switch" id="loginSwitch">
+          New to P10? <button type="button" id="showSignup" class="auth-switch-button">Create account</button>
+        </p>
+
         <form id="signupForm" class="signup-form" autocomplete="on" hidden>
-          <label for="signupEmail">Email address</label><input id="signupEmail" name="email" type="email" autocomplete="email" required placeholder="name@example.com">
-          <label class="signup-password-label" for="signupPassword">Create password</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters">
-          <label class="signup-password-label" for="confirmPassword">Confirm password</label><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Enter your password again">
+          <label for="signupEmail">Email address</label>
+          <input id="signupEmail" name="email" type="email" autocomplete="email" required placeholder="name@example.com">
+
+          <label class="signup-password-label" for="signupPassword">Create password</label>
+          <input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters">
+
+          <label class="signup-password-label" for="confirmPassword">Confirm password</label>
+          <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Enter your password again">
+
           <p class="password-hint">Use at least 8 characters.</p>
           <button class="button primary full" type="submit">Create account <span aria-hidden="true">→</span></button>
           <p id="signupMessage" class="form-message" role="status" aria-live="polite"></p>
         </form>
-        <p class="auth-switch" id="signupSwitch" hidden>Already have an account? <button type="button" id="showLogin" class="auth-switch-button">Sign in</button></p>
+
+        <p class="auth-switch" id="signupSwitch" hidden>
+          Already have an account? <button type="button" id="showLogin" class="auth-switch-button">Sign in</button>
+        </p>
         <p id="setupNote" class="setup-note" hidden></p>
       </div>
       <footer class="login-footer">P10 Holding Company <span>·</span> Account information</footer>
@@ -47,7 +83,11 @@
 
   <div id="appView" class="app-shell" hidden>
     <aside class="sidebar" id="sidebar">
-      <a class="brand sidebar-brand" href="#dashboard" aria-label="P10 Holding Company dashboard"><span class="brand-mark" aria-hidden="true"><b>P</b><i>10</i></span><span class="brand-copy"><strong>P10 HOLDING<br>COMPANY</strong><small>ACCOUNT SERVICES</small></span></a>
+      <a class="brand sidebar-brand" href="#dashboard" aria-label="P10 Holding Company dashboard">
+        <span class="brand-mark" aria-hidden="true"><b>P</b><i>10</i></span>
+        <span class="brand-copy"><strong>P10 HOLDING<br>COMPANY</strong><small>ACCOUNT SERVICES</small></span>
+      </a>
+
       <p class="nav-caption">MENU</p>
       <nav class="side-nav" aria-label="Main navigation">
         <button class="nav-link active" data-section="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
@@ -55,31 +95,169 @@
         <button class="nav-link" data-section="transactions"><span class="nav-icon">↔</span>Transactions</button>
         <button class="nav-link" data-section="settings"><span class="nav-icon">⚙</span>Settings</button>
       </nav>
+
       <p class="nav-caption more-caption">ACCOUNT</p>
       <nav class="side-nav" aria-label="Account options">
         <button class="nav-link" data-action="withdraw"><span class="nav-icon">↗</span>Withdrawals</button>
         <button class="nav-link" data-action="fees"><span class="nav-icon">▤</span>Fees &amp; charges</button>
       </nav>
-      <div class="sidebar-bottom"><div class="help-card"><span class="help-icon">i</span><strong>Need assistance?</strong><small>Contact your account representative.</small></div><button id="logoutButton" class="nav-link logout-link"><span class="nav-icon">↪</span>Sign out</button></div>
+
+      <div class="sidebar-bottom">
+        <div class="help-card"><span class="help-icon">i</span><strong>Need assistance?</strong><small>Contact your account representative.</small></div>
+        <button id="logoutButton" class="nav-link logout-link"><span class="nav-icon">↪</span>Sign out</button>
+      </div>
     </aside>
+
     <section class="main-area">
-      <header class="topbar"><button class="icon-button hamburger" id="menuToggle" aria-label="Open navigation">☰</button><div class="breadcrumb">Accounts <span>/</span> <strong>Overview</strong></div><div class="top-actions"><button class="icon-button" id="notificationButton" aria-label="Notifications">♧<i class="notification-dot"></i></button><button class="profile-button" id="profileButton" aria-label="Account profile"><span class="avatar">P</span><span class="profile-name"><b id="profileName">Account holder</b><small>Account profile</small></span><span class="chevron">⌄</span></button></div></header>
+      <header class="topbar">
+        <button class="icon-button hamburger" id="menuToggle" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Accounts <span>/</span> <strong>Overview</strong></div>
+        <div class="top-actions">
+          <button class="icon-button" id="notificationButton" aria-label="Notifications">♧<i class="notification-dot"></i></button>
+          <button class="profile-button" id="profileButton" aria-label="Account profile">
+            <span class="avatar">P</span>
+            <span class="profile-name"><b id="profileName">Account holder</b><small>Account profile</small></span>
+            <span class="chevron">⌄</span>
+          </button>
+        </div>
+      </header>
+
       <main class="dashboard-content">
-        <section class="welcome-row"><div><p class="eyebrow">ACCOUNT OVERVIEW</p><h1>Welcome to P10 Holding Company.</h1><p class="muted"></p></div><div class="date-chip"><span class="calendar-icon">▦</span><span id="currentDate"></span></div></section>
-        <section class="balance-layout" aria-label="Balance summary">
-          <article class="balance-card"><div class="balance-card-top"><div><span class="balance-label">TOTAL BALANCE</span><button class="balance-info" type="button" aria-label="About total balance" data-tip="Total balance is displayed from your account records after sign-in.">i</button></div><span class="balance-account"><span class="live-dot"></span><span id="accountLabel">Primary Account</span><b>USD</b></span></div><div class="main-balance" id="totalBalance">—</div><div class="balance-footer"><span><small>Available balance</small><b id="availableBalance">—</b></span><span><small>Account balance</small><b id="accountBalance">—</b></span><span class="card-shape" aria-hidden="true"><i></i><i></i></span></div><div class="balance-glow" aria-hidden="true"></div></article>
-          <article class="due-card"><div class="due-top"><span class="due-icon">$</span><span class="due-tag">ACCOUNT INFORMATION</span></div><p class="muted">Outstanding amount</p><div class="due-amount" id="outstandingAmount">—</div><div class="due-bottom"><span><i class="due-indicator"></i>Amount currently due</span><button class="arrow-button" data-action="amount" aria-label="View amount currently due">→</button></div></article>
+        <section class="welcome-row">
+          <div>
+            <p class="eyebrow">ACCOUNT OVERVIEW</p>
+            <h1>Welcome to P10 Holding Company.</h1>
+            <p class="muted"></p>
+          </div>
+          <div class="date-chip">
+            <span class="calendar-icon">▦</span>
+            <span id="currentDate"></span>
+          </div>
         </section>
-        <section class="quick-section"><div class="section-heading"><div><h2>Quick actions</h2><p class="muted">Access common account information.</p></div></div><div class="quick-grid"><button class="quick-card" data-action="withdraw"><span class="quick-icon blue-icon">↗</span><span><b>Withdraw</b><small>View withdrawal information</small></span><span class="quick-arrow">→</span></button><button class="quick-card" data-action="fees"><span class="quick-icon lilac-icon">▤</span><span><b>View fees &amp; transaction history</b><small>Review account information</small></span><span class="quick-arrow">→</span></button><button class="quick-card" data-action="amount"><span class="quick-icon amber-icon">$</span><span><b>Amount currently due</b><small>View outstanding amount</small></span><span class="quick-arrow">→</span></button></div></section>
-        <section class="content-grid"><article class="panel accounts-panel" id="accountsSection"><div class="section-heading"><div><h2>My accounts</h2><p class="muted">Your account overview</p></div><button class="quiet-button" data-section="accounts">View all <span>→</span></button></div><div id="accountList" class="account-list"></div></article>
-          <article class="panel summary-panel"><div class="section-heading"><div><h2>Balance summary</h2><p class="muted">Balance overview</p></div><button class="balance-info pale-info" type="button" aria-label="About sample figures" data-tip="Balance summary is loaded from your account records after sign-in.">i</button></div><div class="summary-row"><span><i class="summary-dot dot-blue"></i>Total balance</span><b id="summaryTotal">—</b></div><div class="summary-row"><span><i class="summary-dot dot-green"></i>Available balance</span><b id="summaryAvailable">—</b></div><div class="summary-row"><span><i class="summary-dot dot-amber"></i>Outstanding amount</span><b id="summaryDue">—</b></div><a class="quiet-button balance-details-link" href="/balances.html">View balance details →</a></article></section>
-        <section class="panel transactions-panel" id="transactionsSection"><div class="section-heading"><div><h2>Recent transactions</h2><p class="muted">A summary of recent account activity.</p></div><button class="quiet-button" data-section="transactions">View all <span>→</span></button></div><div class="table-wrap"><table><thead><tr><th>DESCRIPTION</th><th>DATE</th><th>CATEGORY</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody id="transactionRows"></tbody></table></div><div class="transaction-foot"><span>Showing recent account activity</span><button class="quiet-button" data-section="transactions">See transactions →</button></div></section>
-        <footer class="page-footer"><span>© 2026 P10 Holding Company</span><span>Account information <i>·</i> Privacy <i>·</i> Support</span></footer>
+
+        <section class="balance-layout" aria-label="Balance summary">
+          <article class="balance-card">
+            <div class="balance-card-top">
+              <div>
+                <span class="balance-label">TOTAL BALANCE</span>
+                <button class="balance-info" type="button" aria-label="About total balance" data-tip="Total balance is displayed from your account records after sign-in.">i</button>
+              </div>
+              <span class="balance-account"><span class="live-dot"></span><span id="accountLabel">Primary Account</span><b>USD</b></span>
+            </div>
+            <div class="main-balance" id="totalBalance">—</div>
+            <div class="balance-footer">
+              <span><small>Available balance</small><b id="availableBalance">—</b></span>
+              <span><small>Account balance</small><b id="accountBalance">—</b></span>
+              <span class="card-shape" aria-hidden="true"><i></i><i></i></span>
+            </div>
+            <div class="balance-glow" aria-hidden="true"></div>
+          </article>
+
+          <article class="due-card" data-action="amount" role="button" tabindex="0" aria-label="View amount currently due">
+            <div class="due-top">
+              <span class="due-icon">$</span>
+              <span class="due-tag">ACCOUNT INFORMATION</span>
+            </div>
+            <p class="muted">Outstanding amount</p>
+            <div class="due-amount" id="outstandingAmount">—</div>
+            <div class="due-bottom">
+              <span><i class="due-indicator"></i>Amount currently due</span>
+              <span class="arrow-button" aria-hidden="true">→</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="quick-section">
+          <div class="section-heading">
+            <div><h2>Quick actions</h2><p class="muted">Access common account information.</p></div>
+          </div>
+          <div class="quick-grid">
+            <button class="quick-card" data-action="withdraw">
+              <span class="quick-icon blue-icon">↗</span>
+              <span><b>Withdraw</b><small>View withdrawal information</small></span>
+              <span class="quick-arrow">→</span>
+            </button>
+            <button class="quick-card" data-action="fees">
+              <span class="quick-icon lilac-icon">▤</span>
+              <span><b>View fees &amp; transaction history</b><small>Review account information</small></span>
+              <span class="quick-arrow">→</span>
+            </button>
+            <button class="quick-card" data-action="amount">
+              <span class="quick-icon amber-icon">$</span>
+              <span><b>Amount currently due</b><small>View outstanding amount</small></span>
+              <span class="quick-arrow">→</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel accounts-panel" id="accountsSection">
+            <div class="section-heading">
+              <div><h2>My accounts</h2><p class="muted">Your account overview</p></div>
+              <button class="quiet-button" data-section="accounts">View all <span>→</span></button>
+            </div>
+            <div id="accountList" class="account-list"></div>
+          </article>
+
+          <article class="panel summary-panel">
+            <div class="section-heading">
+              <div><h2>Balance summary</h2><p class="muted">Balance overview</p></div>
+              <button class="balance-info pale-info" type="button" aria-label="About sample figures" data-tip="Balance summary is loaded from your account records after sign-in.">i</button>
+            </div>
+            <div class="summary-row"><span><i class="summary-dot dot-blue"></i>Total balance</span><b id="summaryTotal">—</b></div>
+            <div class="summary-row"><span><i class="summary-dot dot-green"></i>Available balance</span><b id="summaryAvailable">—</b></div>
+            <div class="summary-row"><span><i class="summary-dot dot-amber"></i>Outstanding amount</span><b id="summaryDue">—</b></div>
+            <a class="quiet-button balance-details-link" href="/balances.html">View balance details →</a>
+          </article>
+        </section>
+
+        <section class="panel transactions-panel" id="transactionsSection">
+          <div class="section-heading">
+            <div><h2>Recent transactions</h2><p class="muted">A summary of recent account activity.</p></div>
+            <button class="quiet-button" data-section="transactions">View all <span>→</span></button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>DESCRIPTION</th><th>DATE</th><th>CATEGORY</th><th>AMOUNT</th><th>STATUS</th></tr>
+              </thead>
+              <tbody id="transactionRows"></tbody>
+            </table>
+          </div>
+          <div class="transaction-foot">
+            <span>Showing recent account activity</span>
+            <button class="quiet-button" data-section="transactions">See transactions →</button>
+          </div>
+        </section>
+
+        <footer class="page-footer">
+          <span>© 2026 P10 Holding Company</span>
+          <span>Account information <i>·</i> Privacy <i>·</i> Support</span>
+        </footer>
       </main>
-      <nav class="mobile-nav" aria-label="Mobile navigation"><button class="active" data-section="dashboard"><span>⌂</span>Home</button><button data-section="accounts"><span>▣</span>Accounts</button><button data-section="transactions"><span>↔</span>Activity</button><button data-section="settings"><span>⚙</span>Settings</button></nav>
+
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <button class="active" data-section="dashboard"><span>⌂</span>Home</button>
+        <button data-section="accounts"><span>▣</span>Accounts</button>
+        <button data-section="transactions"><span>↔</span>Activity</button>
+        <button data-section="settings"><span>⚙</span>Settings</button>
+      </nav>
     </section>
   </div>
-  <div id="dialogBackdrop" class="dialog-backdrop" hidden><section class="info-dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><button class="dialog-close" id="dialogClose" aria-label="Close dialog">×</button><span class="dialog-icon" id="dialogIcon">i</span><p class="eyebrow" id="dialogEyebrow">ACCOUNT INFORMATION</p><h2 id="dialogTitle">Account information</h2><p id="dialogBody" class="dialog-body"></p><div id="dialogAmount" class="dialog-amount" hidden></div><div class="dialog-note"><span>i</span><span>For information only. No payment or withdrawal can be made here.</span></div><button class="button primary full" id="dialogDone">Close</button></section></div>
+
+  <div id="dialogBackdrop" class="dialog-backdrop" hidden>
+    <section class="info-dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+      <button class="dialog-close" id="dialogClose" aria-label="Close dialog">×</button>
+      <span class="dialog-icon" id="dialogIcon">i</span>
+      <p class="eyebrow" id="dialogEyebrow">ACCOUNT INFORMATION</p>
+      <h2 id="dialogTitle">Account information</h2>
+      <p id="dialogBody" class="dialog-body"></p>
+      <div id="dialogAmount" class="dialog-amount" hidden></div>
+      <div class="dialog-note"><span>i</span><span>For information only. No payment or withdrawal can be made here.</span></div>
+      <button class="button primary full" id="dialogDone">Close</button>
+    </section>
+  </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
