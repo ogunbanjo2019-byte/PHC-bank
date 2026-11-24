@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2362c9">
+  <title>Balance Details | P10 Holding Company</title>
+  <link rel="stylesheet" href="/styles.css"><script src="/config.js"></script><script src="/auth-guard.js" defer></script>
+</head>
+<body>
+  <div class="standalone-page">
+    <header class="standalone-header">
+      <a class="brand standalone-brand" href="/" aria-label="P10 Holding Company account dashboard">
+        <span class="brand-mark"><b>P</b><i>10</i></span>
+        <span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="/">Dashboard</a>
+        <a href="/transactions.html">Transaction history</a>
+      </nav>
+    </header>
+
+    <main class="standalone-content balance-page">
+      <a class="back-button" href="/">← Back to overview</a>
+
+      <header class="detail-heading balance-page-heading">
+        <p class="eyebrow">ACCOUNT OVERVIEW</p>
+        <h1>Balance details</h1>
+        <p class="muted">A clear breakdown of your account balances.</p>
+      </header>
+
+      <section class="balance-hero" aria-label="Total account balance">
+        <div class="balance-hero-top">
+          <div>
+            <span class="balance-hero-label">TOTAL ACCOUNT BALANCE</span>
+            <p class="balance-account-name"><span id="detailAccountLabel">Account</span> <span>·</span> <span id="detailCurrency">USD</span></p>
+          </div>
+
+        </div>
+        <strong class="balance-total" id="detailTotal">—</strong>
+        <div class="balance-hero-footer">
+          <div class="balance-hero-stat">
+            <span>Available balance</span>
+            <strong id="detailAvailable">—</strong>
+          </div>
+          <div class="balance-hero-stat">
+            <span>Amount currently due</span>
+            <strong id="detailDue">—</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="balance-breakdown" aria-labelledby="breakdown-title">
+        <div class="balance-section-heading">
+          <div>
+            <p class="eyebrow">ACCOUNT SUMMARY</p>
+            <h2 id="breakdown-title">Balance breakdown</h2>
+          </div>
+          <span class="currency-chip" id="currencyChip">USD</span>
+        </div>
+        <div class="balance-breakdown-list">
+          <div class="balance-breakdown-row">
+            <span class="balance-row-icon total-row-icon">$</span>
+            <span class="balance-row-label"><strong>Total account balance</strong><small id="breakdownAccountLabel">Account</small></span>
+            <strong class="balance-row-amount" id="breakdownTotal">—</strong>
+          </div>
+          <div class="balance-breakdown-row">
+            <span class="balance-row-icon available-row-icon">✓</span>
+            <span class="balance-row-label"><strong>Available balance</strong><small>Funds available in this account</small></span>
+            <strong class="balance-row-amount" id="breakdownAvailable">—</strong>
+          </div>
+          <div class="balance-breakdown-row">
+            <span class="balance-row-icon due-row-icon">!</span>
+            <span class="balance-row-label"><strong>Amount currently due</strong><small>Outstanding amount</small></span>
+            <strong class="balance-row-amount due-row-amount" id="breakdownDue">—</strong>
+          </div>
+          <div class="balance-breakdown-row">
+            <span class="balance-row-icon status-row-icon">●</span>
+            <span class="balance-row-label"><strong>Account status</strong><small id="breakdownAccountLabel">Account</small></span>
+            <span class="account-status-pill" id="detailAccountStatus">—</span>
+          </div>
+        </div>
+      </section>
+
+      <a class="button primary history-link" href="/transactions.html">View transaction history <span aria-hidden="true">→</span></a>
+    </main>
+  </div>
+<script src="/balance-page.js" defer></script></body>
+</html>
