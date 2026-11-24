@@ -20,7 +20,7 @@
     <section class="login-content">
       <div class="login-card">
         <div class="brand brand-mobile"><span class="brand-mark" aria-hidden="true"><b>P</b><i>10</i></span><span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span></div>
-        <p class="eyebrow">WELCOME BACK</p><h2>Sign in to your account</h2><p class="muted">Enter the credentials provided for your account.</p>
+        <p class="eyebrow" id="authEyebrow">WELCOME BACK</p><h2 id="authTitle">Sign in to your account</h2><p class="muted" id="authSubtitle">Enter the credentials provided for your account.</p>
         <form id="loginForm" autocomplete="on">
           <label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="username" required placeholder="name@example.com">
           <div class="password-label"><label for="password">Password</label><button type="button" id="forgotPassword" class="text-button">Forgot password?</button></div>
@@ -29,6 +29,16 @@
           <button class="button primary full" type="submit">Sign in <span aria-hidden="true">→</span></button>
           <p id="loginError" class="form-message" role="status" aria-live="polite"></p>
         </form>
+        <p class="auth-switch" id="loginSwitch">New to P10? <button type="button" id="showSignup" class="auth-switch-button">Create account</button></p>
+        <form id="signupForm" class="signup-form" autocomplete="on" hidden>
+          <label for="signupEmail">Email address</label><input id="signupEmail" name="email" type="email" autocomplete="email" required placeholder="name@example.com">
+          <label class="signup-password-label" for="signupPassword">Create password</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters">
+          <label class="signup-password-label" for="confirmPassword">Confirm password</label><input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="Enter your password again">
+          <p class="password-hint">Use at least 8 characters.</p>
+          <button class="button primary full" type="submit">Create account <span aria-hidden="true">→</span></button>
+          <p id="signupMessage" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+        <p class="auth-switch" id="signupSwitch" hidden>Already have an account? <button type="button" id="showLogin" class="auth-switch-button">Sign in</button></p>
         <p id="setupNote" class="setup-note" hidden></p>
       </div>
       <footer class="login-footer">P10 Holding Company <span>·</span> Account information</footer>

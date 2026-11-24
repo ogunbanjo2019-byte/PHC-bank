@@ -130,6 +130,64 @@
     else if (sectionButton) setActiveSection(sectionButton.dataset.section);
   });
 
+  const signupForm = $('#signupForm');
+  const authTitle = $('#authTitle');
+  const authSubtitle = $('#authSubtitle');
+  const authEyebrow = $('#authEyebrow');
+  function showSignupForm() {
+    loginForm.hidden = true;
+    signupForm.hidden = false;
+    $('#loginSwitch').hidden = true;
+    $('#signupSwitch').hidden = false;
+    authEyebrow.textContent = 'CREATE ACCOUNT';
+    authTitle.textContent = 'Create your account';
+    authSubtitle.textContent = 'Register with your email and a secure password.';
+    $('#signupEmail').value = $('#email').value.trim();
+    $('#signupEmail').focus();
+  }
+  function showLoginForm() {
+    signupForm.hidden = true;
+    loginForm.hidden = false;
+    $('#signupSwitch').hidden = true;
+    $('#loginSwitch').hidden = false;
+    authEyebrow.textContent = 'WELCOME BACK';
+    authTitle.textContent = 'Sign in to your account';
+    authSubtitle.textContent = 'Enter the credentials provided for your account.';
+    $('#email').focus();
+  }
+  $('#showSignup').addEventListener('click', showSignupForm);
+  $('#showLogin').addEventListener('click', showLoginForm);
+  signupForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const message = $('#signupMessage');
+    message.classList.remove('success');
+    message.textContent = '';
+    const password = $('#signupPassword').value;
+    if (password !== $('#confirmPassword').value) {
+      message.textContent = 'The passwords do not match.';
+      return;
+    }
+    const submit = signupForm.querySelector('[type="submit"]');
+    submit.disabled = true;
+    submit.textContent = 'Creating account…';
+    try {
+      const result = await api('/api/auth/signup', { method: 'POST', body: JSON.stringify({ email: $('#signupEmail').value.trim(), password }) });
+      if (result.authenticated && result.user) {
+        await loadRealDashboard(result.user);
+      } else {
+        message.classList.add('success');
+        message.textContent = result.message || 'Account request received. Check your email to confirm, then sign in.';
+        $('#signupPassword').value = '';
+        $('#confirmPassword').value = '';
+      }
+    } catch (error) {
+      message.textContent = error.message;
+    } finally {
+      submit.disabled = false;
+      submit.innerHTML = 'Create account <span aria-hidden="true">→</span>';
+    }
+  });
+
   $('#togglePassword').addEventListener('click', () => {
     const input = $('#password');
     const shown = input.type === 'password';

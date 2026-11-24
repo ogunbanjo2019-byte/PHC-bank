@@ -91,3 +91,10 @@
 }
 
 html:not(.session-verified) .standalone-page{visibility:hidden}
+.auth-switch{font-size:11px;color:#778498;text-align:center;margin:16px 0 0}
+.auth-switch-button{border:0;background:none;padding:0 0 0 3px;color:var(--blue);font-family:inherit;font-size:11px;font-weight:700;text-decoration:none}
+.auth-switch-button:hover{text-decoration:underline}
+.signup-form{margin-top:17px!important}
+.login-card .signup-form>.signup-password-label{margin-top:13px}
+.password-hint{font-size:10px;color:#8995a5;margin:7px 0 14px}
+.form-message.success{color:#21805d;background:#eef8f3;border-radius:7px;padding:9px 10px}
