@@ -119,7 +119,19 @@
     const rawAvailable = account?.available_balance ?? account?.available;
     const available = rawAvailable !== undefined && rawAvailable !== null && Number(rawAvailable) > 0 ? Number(rawAvailable) : total;
     const outstanding = due !== undefined && due !== null && Number(due) > 0 ? Number(due) : DEFAULT_DUE_AMOUNT;
-    $('#accountLabel').textContent = holderName;
+
+    let holderEl = $('#cardHolderName');
+    const totalEl = $('#totalBalance');
+    if (!holderEl && totalEl && totalEl.parentNode) {
+      holderEl = document.createElement('p');
+      holderEl.id = 'cardHolderName';
+      holderEl.className = 'card-holder-name';
+      holderEl.style.cssText = 'margin:6px 0 2px;font-size:12px;font-weight:700;letter-spacing:.4px;color:#eef4ff;';
+      totalEl.parentNode.insertBefore(holderEl, totalEl);
+    }
+    if (holderEl) holderEl.textContent = holderName;
+
+    $('#accountLabel').textContent = name;
     $('#totalBalance').textContent = money(total, currency);
     $('#availableBalance').textContent = money(available, currency);
     $('#accountBalance').textContent = money(total, currency);

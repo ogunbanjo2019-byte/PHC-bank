@@ -58,8 +58,14 @@
         </p>
 
         <form id="signupForm" class="signup-form" autocomplete="on" hidden>
-          <label for="signupEmail">Email address</label>
+          <label for="signupFullName">Full name</label>
+          <input id="signupFullName" name="fullName" type="text" autocomplete="name" required placeholder="Enter your full name">
+
+          <label class="signup-password-label" for="signupEmail">Email address</label>
           <input id="signupEmail" name="email" type="email" autocomplete="email" required placeholder="name@example.com">
+
+          <label class="signup-password-label" for="signupPhone">Phone number (optional)</label>
+          <input id="signupPhone" name="phone" type="tel" autocomplete="tel" placeholder="+1 (555) 000-0000">
 
           <label class="signup-password-label" for="signupPassword">Create password</label>
           <input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters">
@@ -144,7 +150,8 @@
               </div>
               <span class="balance-account"><span class="live-dot"></span><span id="accountLabel">Primary Account</span><b>USD</b></span>
             </div>
-            <div class="main-balance" id="totalBalance">—</div>
+            <p id="cardHolderName" class="card-holder-name" style="margin:6px 0 2px;font-size:12px;font-weight:700;letter-spacing:.4px;color:#eef4ff;"></p>
+            <div class="main-balance" id="totalBalance" style="margin-top:6px;">—</div>
             <div class="balance-footer">
               <span><small>Available balance</small><b id="availableBalance">—</b></span>
               <span><small>Account balance</small><b id="accountBalance">—</b></span>
