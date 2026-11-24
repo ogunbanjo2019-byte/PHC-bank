@@ -1,3 +1,84 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#2362c9"><title>Transaction History | P10 Holding Company</title><link rel="stylesheet" href="/styles.css"><script src="/config.js"></script><script src="/transactions.js" defer></script><script src="/auth-guard.js" defer></script></head>
-<body><div class="standalone-page"><header class="standalone-header"><a class="brand standalone-brand" href="/"><span class="brand-mark"><b>P</b><i>10</i></span><span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span></a><nav><a href="/">Dashboard</a><a href="/balances.html">Balance details</a></nav></header><main class="standalone-content"><a class="back-button" href="/">← Back to overview</a><header class="detail-heading"><p class="eyebrow">ACCOUNT ACTIVITY</p><h1>Transaction history</h1><p class="muted">Search, filter by status, or select a transaction for details.</p></header><section class="history-stats"><article class="history-stat history-stat-blue"><small>All activity</small><strong id="countAll">0</strong></article><article class="history-stat history-stat-green"><small>Completed</small><strong id="countCompleted">0</strong></article><article class="history-stat history-stat-amber"><small>Pending</small><strong id="countPending">0</strong></article><article class="history-stat history-stat-red"><small>Failed</small><strong id="countFailed">0</strong></article></section><section class="panel history-panel"><div class="history-controls"><label class="history-search"><span>⌕</span><input id="transactionSearch" type="search" placeholder="Search description or category" aria-label="Search transaction history"></label><label class="filter-label">Status <select id="statusFilter"><option value="all">All activity</option><option value="completed">Completed</option><option value="pending">Pending</option><option value="failed">Failed</option></select></label></div><div class="table-wrap"><table><thead><tr><th>DESCRIPTION</th><th>DATE</th><th>CATEGORY</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody id="transactionHistory"></tbody></table><p id="noTransactions" class="empty-history" hidden>No transactions match these filters.</p></div></section><a class="button primary history-link" href="/balances.html">View balance details →</a></main></div><div id="transactionModal" class="dialog-backdrop" hidden><section class="info-dialog" role="dialog" aria-modal="true" aria-labelledby="transactionTitle"><button class="dialog-close" id="closeTransaction" aria-label="Close">×</button><span class="dialog-icon">↔</span><p class="eyebrow">TRANSACTION DETAILS</p><h2 id="transactionTitle">Transaction</h2><p id="transactionDetailText" class="dialog-body"></p><div id="transactionAmount" class="dialog-amount"></div><button id="doneTransaction" class="button primary full">Close</button></section></div></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#2362c9">
+  <title>Transaction History | P10 Holding Company</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/config.js"></script>
+  <script src="/transactions.js" defer></script>
+  <script src="/auth-guard.js" defer></script>
+</head>
+<body>
+  <div class="standalone-page">
+    <header class="standalone-header">
+      <a class="brand standalone-brand" href="/">
+        <span class="brand-mark"><b>P</b><i>10</i></span>
+        <span class="brand-copy"><strong>P10 HOLDING COMPANY</strong><small>ACCOUNT SERVICES</small></span>
+      </a>
+      <nav>
+        <a href="/">Dashboard</a>
+        <a href="/balances.html">Balance details</a>
+      </nav>
+    </header>
+
+    <main class="standalone-content">
+      <a class="back-button" href="/">← Back to overview</a>
+      <header class="detail-heading">
+        <p class="eyebrow">ACCOUNT ACTIVITY</p>
+        <h1>Transaction history</h1>
+        <p class="muted">Search, filter by status, or select a transaction for details.</p>
+      </header>
+
+      <section class="history-stats">
+        <article class="history-stat history-stat-blue"><small>All activity</small><strong id="countAll">0</strong></article>
+        <article class="history-stat history-stat-green"><small>Completed</small><strong id="countCompleted">0</strong></article>
+        <article class="history-stat history-stat-amber"><small>Pending</small><strong id="countPending">0</strong></article>
+        <article class="history-stat history-stat-red"><small>Failed</small><strong id="countFailed">0</strong></article>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="history-controls">
+          <label class="history-search">
+            <span>⌕</span>
+            <input id="transactionSearch" type="search" placeholder="Search description or category" aria-label="Search transaction history">
+          </label>
+          <label class="filter-label">
+            Status
+            <select id="statusFilter">
+              <option value="all">All activity</option>
+              <option value="completed">Completed</option>
+              <option value="pending">Pending</option>
+              <option value="failed">Failed</option>
+            </select>
+          </label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>DESCRIPTION</th><th>DATE</th><th>CATEGORY</th><th>AMOUNT</th><th>STATUS</th></tr>
+            </thead>
+            <tbody id="transactionHistory"></tbody>
+          </table>
+          <p id="noTransactions" class="empty-history" hidden>No transactions match these filters.</p>
+        </div>
+      </section>
+
+      <a class="button primary history-link" href="/balances.html">View balance details →</a>
+    </main>
+  </div>
+
+  <div id="transactionModal" class="dialog-backdrop" hidden>
+    <section class="info-dialog" role="dialog" aria-modal="true" aria-labelledby="transactionTitle">
+      <button class="dialog-close" id="closeTransaction" aria-label="Close">×</button>
+      <span class="dialog-icon">↔</span>
+      <p class="eyebrow">TRANSACTION DETAILS</p>
+      <h2 id="transactionTitle">Transaction</h2>
+      <p id="transactionDetailText" class="dialog-body"></p>
+      <div id="transactionAmount" class="dialog-amount"></div>
+      <button id="doneTransaction" class="button primary full">Close</button>
+    </section>
+  </div>
+</body>
+</html>
