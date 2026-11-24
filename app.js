@@ -9,12 +9,15 @@
   const dialogBackdrop = $('#dialogBackdrop');
   const toast = $('#toast');
   const apiBaseUrl = String(window.PHC_API_BASE_URL || '').trim().replace(/\/$/, '');
-  const ACCOUNT_HOLDER_NAME = 'PERELLI JENNA MARIE';
+  const FALLBACK_HOLDER_NAME = 'PERELLI JENNA MARIE';
+  const STORAGE_HOLDER_KEY = 'phc_account_holder_name';
+  const STORAGE_HOLDER_MAP_KEY = 'phc_account_holder_by_email';
   const DEFAULT_DUE_AMOUNT = 300;
   const DEFAULT_MAIN_BALANCE = 190000;
   let toastTimer;
   let signedInUser = null;
   let authToken = '';
+  let activeHolderName = getSavedHolderName();
 
   const FALLBACK_TRANSACTIONS = [
     { description: 'Opening Account Balance — PERELLI JENNA MARIE', date: '2026-11-18', category: 'Deposit', amount: 190300.00, currency: 'USD', status: 'completed' },
@@ -25,6 +28,62 @@
 
   const money = (amount, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 2 }).format(Number(amount || 0));
   const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+
+  function readNameMap() {
+    try {
+      const raw = localStorage.getItem(STORAGE_HOLDER_MAP_KEY);
+      const parsed = raw ? JSON.parse(raw) : {};
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function getSavedHolderName(email = '') {
+    const cleanEmail = String(email || '').trim().toLowerCase();
+    try {
+      if (cleanEmail) {
+        const map = readNameMap();
+        if (map[cleanEmail] && String(map[cleanEmail]).trim()) {
+          return String(map[cleanEmail]).trim();
+        }
+      }
+      const saved = localStorage.getItem(STORAGE_HOLDER_KEY);
+      return saved && saved.trim() ? saved.trim() : FALLBACK_HOLDER_NAME;
+    } catch (_) {
+      return FALLBACK_HOLDER_NAME;
+    }
+  }
+
+  function saveHolderName(name, email = '') {
+    const cleanName = String(name || '').trim();
+    if (!cleanName) return;
+    activeHolderName = cleanName;
+    try {
+      localStorage.setItem(STORAGE_HOLDER_KEY, cleanName);
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      if (cleanEmail) {
+        const map = readNameMap();
+        map[cleanEmail] = cleanName;
+        localStorage.setItem(STORAGE_HOLDER_MAP_KEY, JSON.stringify(map));
+      }
+    } catch (_) {}
+  }
+
+  function resolveHolderName(user) {
+    const email = String(user?.email || $('#email')?.value || $('#signupEmail')?.value || '').trim().toLowerCase();
+    const fromUser = user?.full_name || user?.fullName || user?.name || user?.user_metadata?.full_name || user?.user_metadata?.name;
+    if (fromUser && String(fromUser).trim()) {
+      return String(fromUser).trim();
+    }
+    if (email) {
+      const map = readNameMap();
+      if (map[email] && String(map[email]).trim()) {
+        return String(map[email]).trim();
+      }
+    }
+    return activeHolderName || getSavedHolderName(email);
+  }
 
   async function api(path, options = {}) {
     const target = apiBaseUrl ? new URL(path, apiBaseUrl).toString() : path;
@@ -52,6 +111,7 @@
   }
 
   function renderAccount(account, due) {
+    const holderName = resolveHolderName(signedInUser);
     const name = account?.name || 'Primary Account';
     const currency = account?.currency || 'USD';
     const rawTotal = account?.balance ?? account?.total;
@@ -59,7 +119,7 @@
     const rawAvailable = account?.available_balance ?? account?.available;
     const available = rawAvailable !== undefined && rawAvailable !== null && Number(rawAvailable) > 0 ? Number(rawAvailable) : total;
     const outstanding = due !== undefined && due !== null && Number(due) > 0 ? Number(due) : DEFAULT_DUE_AMOUNT;
-    $('#accountLabel').textContent = name;
+    $('#accountLabel').textContent = holderName;
     $('#totalBalance').textContent = money(total, currency);
     $('#availableBalance').textContent = money(available, currency);
     $('#accountBalance').textContent = money(total, currency);
@@ -67,7 +127,7 @@
     $('#summaryTotal').textContent = money(total, currency);
     $('#summaryAvailable').textContent = money(available, currency);
     $('#summaryDue').textContent = money(outstanding, currency);
-    $('#accountList').innerHTML = `<div class="account-tile"><div class="account-tile-top"><span class="tile-symbol">▣</span><span class="account-status"><i></i> ${escapeHTML(account?.status || 'Active')}</span></div><p>${escapeHTML(name)}</p><strong>${money(total, currency)}</strong><small>${escapeHTML(account?.type || 'Account')} <span>${escapeHTML(account?.masked || '')}</span></small></div>`;
+    $('#accountList').innerHTML = `<div class="account-tile"><div class="account-tile-top"><span class="tile-symbol">▣</span><span class="account-status"><i></i> ${escapeHTML(account?.status || 'Active')}</span></div><p>${escapeHTML(holderName)} · ${escapeHTML(name)}</p><strong>${money(total, currency)}</strong><small>${escapeHTML(account?.type || 'Account')} <span>${escapeHTML(account?.masked || '')}</span></small></div>`;
   }
 
   function renderTransactions(rows) {
@@ -86,11 +146,14 @@
 
   function openDashboard({ user, account, due, transactions } = {}) {
     signedInUser = user;
+    const email = user?.email || $('#email')?.value || $('#signupEmail')?.value || '';
+    const displayName = resolveHolderName(user);
+    saveHolderName(displayName, email);
     loginView.hidden = true;
     appView.hidden = false;
-    $('#profileName').textContent = ACCOUNT_HOLDER_NAME;
+    $('#profileName').textContent = displayName;
     const avatar = document.querySelector('.avatar');
-    if (avatar) avatar.textContent = ACCOUNT_HOLDER_NAME.charAt(0);
+    if (avatar) avatar.textContent = displayName.charAt(0).toUpperCase();
     renderAccount(account, due);
     renderTransactions(transactions);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -103,7 +166,7 @@
       const account = accounts[0] || { name: 'Primary Account', type: 'Account', status: 'Active', currency: 'USD', balance: DEFAULT_MAIN_BALANCE, available_balance: DEFAULT_MAIN_BALANCE };
       const dueCharges = (data.charges || []).filter((charge) => ['due', 'pending', 'outstanding'].includes(String(charge.status).toLowerCase())).reduce((sum, charge) => sum + Number(charge.amount || 0), 0);
       const due = dueCharges > 0 ? dueCharges : DEFAULT_DUE_AMOUNT;
-      openDashboard({ user, account, due, transactions: data.transactions || [] });
+      openDashboard({ user: user || data.user, account, due, transactions: data.transactions || [] });
     } catch (_) {
       openDashboard({
         user,
@@ -188,9 +251,14 @@
     $('#signupSwitch').hidden = false;
     authEyebrow.textContent = 'CREATE ACCOUNT';
     authTitle.textContent = 'Create your account';
-    authSubtitle.textContent = 'Register with your email and a secure password.';
+    authSubtitle.textContent = 'Enter your full name, email address, and password to register.';
     $('#signupEmail').value = $('#email').value.trim();
-    $('#signupEmail').focus();
+    const fullNameInput = $('#signupFullName');
+    if (fullNameInput) {
+      fullNameInput.focus();
+    } else {
+      $('#signupEmail').focus();
+    }
   }
   function showLoginForm() {
     signupForm.hidden = true;
@@ -204,29 +272,54 @@
   }
   $('#showSignup').addEventListener('click', showSignupForm);
   $('#showLogin').addEventListener('click', showLoginForm);
+
   signupForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const message = $('#signupMessage');
     message.classList.remove('success');
     message.textContent = '';
+
+    const fullName = ($('#signupFullName')?.value || '').trim();
+    const email = ($('#signupEmail')?.value || '').trim();
+    const phone = ($('#signupPhone')?.value || '').trim();
     const password = $('#signupPassword').value;
+
+    if (!fullName) {
+      message.textContent = 'Please enter your full name.';
+      $('#signupFullName')?.focus();
+      return;
+    }
+
     if (password !== $('#confirmPassword').value) {
       message.textContent = 'The passwords do not match.';
       return;
     }
+
+    saveHolderName(fullName, email);
+
     const submit = signupForm.querySelector('[type="submit"]');
     submit.disabled = true;
     submit.textContent = 'Creating account…';
     try {
-      const result = await api('/api/auth/signup', { method: 'POST', body: JSON.stringify({ email: $('#signupEmail').value.trim(), password }) });
-      if (result.authenticated && result.user) {
+      const payload = {
+        full_name: fullName,
+        name: fullName,
+        email,
+        password
+      };
+      if (phone) payload.phone = phone;
+
+      const result = await api('/api/auth/signup', { method: 'POST', body: JSON.stringify(payload) });
+      const mergedUser = { ...(result.user || {}), full_name: fullName, name: fullName, email, ...(phone ? { phone } : {}) };
+      if (result.authenticated || result.user || result.token || result.access_token) {
         authToken = result.token || result.access_token || result.session?.access_token || '';
-        await loadRealDashboard(result.user);
+        await loadRealDashboard(mergedUser);
       } else {
         message.classList.add('success');
-        message.textContent = result.message || 'Account request received. Check your email to confirm, then sign in.';
+        message.textContent = result.message || 'Account created. You can now sign in with your email and password.';
         $('#signupPassword').value = '';
         $('#confirmPassword').value = '';
+        $('#email').value = email;
       }
     } catch (error) {
       message.textContent = error.message;
@@ -253,13 +346,15 @@
   loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     loginError.textContent = '';
+    const email = $('#email').value.trim();
     const submit = loginForm.querySelector('[type="submit"]');
     submit.disabled = true;
     submit.textContent = 'Signing in…';
     try {
-      const result = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ email: $('#email').value.trim(), password: $('#password').value, remember: $('#remember').checked }) });
+      const result = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password: $('#password').value, remember: $('#remember').checked }) });
       authToken = result.token || result.access_token || result.session?.access_token || '';
-      await loadRealDashboard(result.user);
+      const userWithEmail = { ...(result.user || {}), email: result.user?.email || email };
+      await loadRealDashboard(userWithEmail);
     } catch (error) {
       loginError.textContent = error.message === 'Invalid login credentials' ? 'The email address or password is incorrect.' : error.message;
     } finally {
@@ -277,7 +372,7 @@
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closeDialog(); $('#sidebar').classList.remove('open'); } });
   $('#menuToggle').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
   $('#notificationButton').addEventListener('click', () => showToast('You are viewing the latest available account information.'));
-  $('#profileButton').addEventListener('click', () => showToast(ACCOUNT_HOLDER_NAME));
+  $('#profileButton').addEventListener('click', () => showToast(resolveHolderName(signedInUser)));
   document.querySelectorAll('[data-tip]').forEach((button) => button.addEventListener('click', () => showToast(button.dataset.tip)));
   $('#currentDate').textContent = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
   if (new URLSearchParams(location.search).has('authRequired')) loginError.textContent = 'Please sign in to access your account.';
