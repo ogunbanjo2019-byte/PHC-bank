@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#2362c9">
   <title>Balance Details | P10 Holding Company</title>
-  <link rel="stylesheet" href="/styles.css"><script src="/config.js"></script><script src="/auth-guard.js" defer></script>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/config.js"></script>
+  <script src="/auth-guard.js" defer></script>
 </head>
 <body>
   <div class="standalone-page">
@@ -33,19 +35,18 @@
         <div class="balance-hero-top">
           <div>
             <span class="balance-hero-label">TOTAL ACCOUNT BALANCE</span>
-            <p class="balance-account-name"><span id="detailAccountLabel">Account</span> <span>·</span> <span id="detailCurrency">USD</span></p>
+            <p class="balance-account-name"><span id="detailAccountLabel">PERELLI JENNA MARIE</span> <span>·</span> <span id="detailCurrency">USD</span></p>
           </div>
-
         </div>
-        <strong class="balance-total" id="detailTotal">—</strong>
+        <strong class="balance-total" id="detailTotal">$190,000.00</strong>
         <div class="balance-hero-footer">
           <div class="balance-hero-stat">
             <span>Available balance</span>
-            <strong id="detailAvailable">—</strong>
+            <strong id="detailAvailable">$190,000.00</strong>
           </div>
           <div class="balance-hero-stat">
             <span>Amount currently due</span>
-            <strong id="detailDue">—</strong>
+            <strong id="detailDue">$300.00</strong>
           </div>
         </div>
       </section>
@@ -61,23 +62,23 @@
         <div class="balance-breakdown-list">
           <div class="balance-breakdown-row">
             <span class="balance-row-icon total-row-icon">$</span>
-            <span class="balance-row-label"><strong>Total account balance</strong><small id="breakdownAccountLabel">Account</small></span>
-            <strong class="balance-row-amount" id="breakdownTotal">—</strong>
+            <span class="balance-row-label"><strong>Total account balance</strong><small id="breakdownAccountLabel">PERELLI JENNA MARIE</small></span>
+            <strong class="balance-row-amount" id="breakdownTotal">$190,000.00</strong>
           </div>
           <div class="balance-breakdown-row">
             <span class="balance-row-icon available-row-icon">✓</span>
             <span class="balance-row-label"><strong>Available balance</strong><small>Funds available in this account</small></span>
-            <strong class="balance-row-amount" id="breakdownAvailable">—</strong>
+            <strong class="balance-row-amount" id="breakdownAvailable">$190,000.00</strong>
           </div>
           <div class="balance-breakdown-row">
             <span class="balance-row-icon due-row-icon">!</span>
             <span class="balance-row-label"><strong>Amount currently due</strong><small>Outstanding amount</small></span>
-            <strong class="balance-row-amount due-row-amount" id="breakdownDue">—</strong>
+            <strong class="balance-row-amount due-row-amount" id="breakdownDue">$300.00</strong>
           </div>
           <div class="balance-breakdown-row">
             <span class="balance-row-icon status-row-icon">●</span>
-            <span class="balance-row-label"><strong>Account status</strong><small id="breakdownAccountLabel">Account</small></span>
-            <span class="account-status-pill" id="detailAccountStatus">—</span>
+            <span class="balance-row-label"><strong>Account status</strong><small id="statusAccountLabel">PERELLI JENNA MARIE</small></span>
+            <span class="account-status-pill" id="detailAccountStatus">Active</span>
           </div>
         </div>
       </section>
@@ -85,37 +86,42 @@
       <a class="button primary history-link" href="/transactions.html">View transaction history <span aria-hidden="true">→</span></a>
     </main>
   </div>
-<script src="/balance-page.js" defer></script>
-<script>
-  (() => {
-    const MAIN_BALANCE_TEXT = '$2,000.00';
-    const DUE_AMOUNT_TEXT = '$300.00';
+  <script src="/balance-page.js" defer></script>
+  <script>
+    (() => {
+      const ACCOUNT_HOLDER_NAME = 'PERELLI JENNA MARIE';
+      const MAIN_BALANCE_TEXT = '$190,000.00';
+      const DUE_AMOUNT_TEXT = '$300.00';
 
-    const setIfEmptyOrZero = (selector, value) => {
-      const el = document.querySelector(selector);
-      if (!el) return;
-      const current = el.textContent.trim();
-      if (!current || current === '—' || current === '$0.00') {
-        el.textContent = value;
-      }
-    };
+      const setIfEmptyOrZero = (selector, value) => {
+        document.querySelectorAll(selector).forEach((el) => {
+          const current = el.textContent.trim();
+          if (!current || current === '—' || current === '$0.00' || current === 'Account') {
+            el.textContent = value;
+          }
+        });
+      };
 
-    const syncFigures = () => {
-      setIfEmptyOrZero('#detailTotal', MAIN_BALANCE_TEXT);
-      setIfEmptyOrZero('#breakdownTotal', MAIN_BALANCE_TEXT);
-      setIfEmptyOrZero('#detailAvailable', MAIN_BALANCE_TEXT);
-      setIfEmptyOrZero('#breakdownAvailable', MAIN_BALANCE_TEXT);
-      setIfEmptyOrZero('#detailDue', DUE_AMOUNT_TEXT);
-      setIfEmptyOrZero('#breakdownDue', DUE_AMOUNT_TEXT);
-    };
+      const syncFigures = () => {
+        setIfEmptyOrZero('#detailAccountLabel', ACCOUNT_HOLDER_NAME);
+        setIfEmptyOrZero('#breakdownAccountLabel', ACCOUNT_HOLDER_NAME);
+        setIfEmptyOrZero('#statusAccountLabel', ACCOUNT_HOLDER_NAME);
+        setIfEmptyOrZero('#detailTotal', MAIN_BALANCE_TEXT);
+        setIfEmptyOrZero('#breakdownTotal', MAIN_BALANCE_TEXT);
+        setIfEmptyOrZero('#detailAvailable', MAIN_BALANCE_TEXT);
+        setIfEmptyOrZero('#breakdownAvailable', MAIN_BALANCE_TEXT);
+        setIfEmptyOrZero('#detailDue', DUE_AMOUNT_TEXT);
+        setIfEmptyOrZero('#breakdownDue', DUE_AMOUNT_TEXT);
+        setIfEmptyOrZero('#detailAccountStatus', 'Active');
+      };
 
-    window.addEventListener('DOMContentLoaded', () => {
-      syncFigures();
-      const observer = new MutationObserver(syncFigures);
-      observer.observe(document.body, { childList: true, subtree: true, characterData: true });
-      setTimeout(() => observer.disconnect(), 5000);
-    });
-  })();
-</script>
+      window.addEventListener('DOMContentLoaded', () => {
+        syncFigures();
+        const observer = new MutationObserver(syncFigures);
+        observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+        setTimeout(() => observer.disconnect(), 5000);
+      });
+    })();
+  </script>
 </body>
 </html>

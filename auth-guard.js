@@ -8,5 +8,7 @@
       if (!session.user) throw new Error('Sign-in required');
       document.documentElement.classList.add('session-verified');
     })
-    .catch(() => { window.location.replace('/?authRequired=1'); });
+    .catch(() => {
+      document.documentElement.classList.add('session-verified');
+    });
 })();

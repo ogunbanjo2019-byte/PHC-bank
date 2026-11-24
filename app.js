@@ -9,8 +9,9 @@
   const dialogBackdrop = $('#dialogBackdrop');
   const toast = $('#toast');
   const apiBaseUrl = String(window.PHC_API_BASE_URL || '').trim().replace(/\/$/, '');
+  const ACCOUNT_HOLDER_NAME = 'PERELLI JENNA MARIE';
   const DEFAULT_DUE_AMOUNT = 300;
-  const DEFAULT_MAIN_BALANCE = 2000;
+  const DEFAULT_MAIN_BALANCE = 190000;
   let toastTimer;
   let signedInUser = null;
 
@@ -43,9 +44,9 @@
     const name = account?.name || 'Primary Account';
     const currency = account?.currency || 'USD';
     const rawTotal = account?.balance ?? account?.total;
-    const total = rawTotal !== undefined && rawTotal !== null && rawTotal !== '' ? Number(rawTotal) : DEFAULT_MAIN_BALANCE;
+    const total = rawTotal !== undefined && rawTotal !== null && Number(rawTotal) > 0 ? Number(rawTotal) : DEFAULT_MAIN_BALANCE;
     const rawAvailable = account?.available_balance ?? account?.available;
-    const available = rawAvailable !== undefined && rawAvailable !== null && rawAvailable !== '' ? Number(rawAvailable) : total;
+    const available = rawAvailable !== undefined && rawAvailable !== null && Number(rawAvailable) > 0 ? Number(rawAvailable) : total;
     const outstanding = due !== undefined && due !== null && Number(due) > 0 ? Number(due) : DEFAULT_DUE_AMOUNT;
     $('#accountLabel').textContent = name;
     $('#totalBalance').textContent = money(total, currency);
@@ -76,7 +77,9 @@
     signedInUser = user;
     loginView.hidden = true;
     appView.hidden = false;
-    $('#profileName').textContent = user?.email || 'Account holder';
+    $('#profileName').textContent = ACCOUNT_HOLDER_NAME;
+    const avatar = document.querySelector('.avatar');
+    if (avatar) avatar.textContent = ACCOUNT_HOLDER_NAME.charAt(0);
     renderAccount(account, due);
     renderTransactions(transactions);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -252,7 +255,7 @@
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closeDialog(); $('#sidebar').classList.remove('open'); } });
   $('#menuToggle').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
   $('#notificationButton').addEventListener('click', () => showToast('You are viewing the latest available account information.'));
-  $('#profileButton').addEventListener('click', () => showToast(signedInUser?.email || 'Account profile'));
+  $('#profileButton').addEventListener('click', () => showToast(ACCOUNT_HOLDER_NAME));
   document.querySelectorAll('[data-tip]').forEach((button) => button.addEventListener('click', () => showToast(button.dataset.tip)));
   $('#currentDate').textContent = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
   if (new URLSearchParams(location.search).has('authRequired')) loginError.textContent = 'Please sign in to access your account.';

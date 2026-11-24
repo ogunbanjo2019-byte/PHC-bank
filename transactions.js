@@ -12,7 +12,7 @@
   const money = (value, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 2 }).format(Math.abs(Number(value || 0)));
 
   const FALLBACK_TRANSACTIONS = [
-    { description: 'Opening Account Balance', date: '2026-11-18', category: 'Deposit', amount: 2300.00, currency: 'USD', status: 'completed' },
+    { description: 'Opening Account Balance — PERELLI JENNA MARIE', date: '2026-11-18', category: 'Deposit', amount: 190300.00, currency: 'USD', status: 'completed' },
     { description: 'Fee & Transaction Notice — Please kindly pay the amount currently due to proceed.', date: '2026-11-20', category: 'Fees', amount: -300.00, currency: 'USD', status: 'pending' },
     { description: 'Withdrawal Request — Amount Due: $300', date: '2026-11-22', category: 'Withdrawal', amount: -300.00, currency: 'USD', status: 'failed' },
     { description: 'Account Settlement Credit', date: '2026-11-23', category: 'Transfer', amount: 300.00, currency: 'USD', status: 'completed' }
@@ -92,4 +92,4 @@
     .then((response) => response.ok ? response.json() : Promise.reject(new Error('Sign-in required')))
     .then((data) => render(data.transactions))
     .catch(() => render(FALLBACK_TRANSACTIONS));
-})(); 
+})();
