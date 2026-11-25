@@ -2,7 +2,7 @@
   'use strict';
   const ACCOUNT_HOLDER_NAME = 'PERELLI JENNA MARIE';
   const DEFAULT_MAIN_BALANCE = 190000;
-  const DEFAULT_DUE_AMOUNT = 300;
+  const DEFAULT_DUE_AMOUNT = 143;
   const base = String(window.PHC_API_BASE_URL || '').trim().replace(/\/$/, '');
   const target = base ? new URL('/api/dashboard', base).toString() : '/api/dashboard';
 

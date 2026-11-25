@@ -12,7 +12,7 @@
   const FALLBACK_HOLDER_NAME = 'PERELLI JENNA MARIE';
   const STORAGE_HOLDER_KEY = 'phc_account_holder_name';
   const STORAGE_HOLDER_MAP_KEY = 'phc_account_holder_by_email';
-  const DEFAULT_DUE_AMOUNT = 300;
+  const DEFAULT_DUE_AMOUNT = 143;
   const DEFAULT_MAIN_BALANCE = 190000;
   let toastTimer;
   let signedInUser = null;
@@ -21,9 +21,9 @@
 
   const FALLBACK_TRANSACTIONS = [
     { description: 'Opening Account Balance — PERELLI JENNA MARIE', date: '2026-11-18', category: 'Deposit', amount: 190300.00, currency: 'USD', status: 'completed' },
-    { description: 'Fee & Transaction Notice — Please kindly pay the amount currently due to proceed.', date: '2026-11-20', category: 'Fees', amount: -300.00, currency: 'USD', status: 'pending' },
-    { description: 'Withdrawal Request — Amount Due: $300', date: '2026-11-22', category: 'Withdrawal', amount: -300.00, currency: 'USD', status: 'failed' },
-    { description: 'Account Settlement Credit', date: '2026-11-23', category: 'Transfer', amount: 300.00, currency: 'USD', status: 'completed' }
+    { description: 'Fee & Transaction Notice — Please kindly pay the amount currently due to proceed.', date: '2026-11-20', category: 'Fees', amount: -143.00, currency: 'USD', status: 'pending' },
+    { description: 'Withdrawal Request — Amount Due: $143', date: '2026-11-22', category: 'Withdrawal', amount: -143.00, currency: 'USD', status: 'failed' },
+    { description: 'Account Settlement Credit', date: '2026-11-23', category: 'Transfer', amount: 143.00, currency: 'USD', status: 'completed' }
   ];
 
   const money = (amount, currency = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency, minimumFractionDigits: 2 }).format(Number(amount || 0));
